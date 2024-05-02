@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, redirect, url_for, request
-from werkzeug.security import generate_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import login_user, logout_user
 from .models import Blog_credentials
 from . import db
 
@@ -22,3 +23,17 @@ def setup():
         return render_template("setup.html")
     else:
         return redirect(url_for("blog.blog_page"))
+
+@auth.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        password = request.form.get("password")
+
+        admin = Blog_credentials.query.first()
+
+        if check_password_hash(admin.password, password):
+            login_user(admin)
+
+            return redirect(url_for("blog_writer.blog_writer_page"))
+
+    return render_template("login.html")
