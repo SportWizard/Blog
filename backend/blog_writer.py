@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, flash, redirect, url_for
+from flask import Blueprint, render_template, request, redirect, url_for
 from . import db
 from .models import Post
 
@@ -10,15 +10,24 @@ def blog_writer_page():
         title = request.form.get("title")
         context = request.form.get("context")
 
-        if not title or not context:
-            flash("Title or Context can't be empty.", category="error")
-        else:
+        #check if title or context is not empty
+        if title and context:
             post = Post(title=title, context=context)
 
             db.session.add(post)
             db.session.commit()
 
-            flash("Post created", category="success")
+            return redirect(url_for("blog.blog_page"))
+
+        post_title = request.form.get("postTitle")
+
+        #if two posts have the same title, it will delete the oldest one
+        delete_post = Post.query.filter_by(title=post_title).first()
+
+        #check if the post exist and if delete_post is not empty
+        if post_title and delete_post:
+            db.session.delete(delete_post)
+            db.session.commit()
 
             return redirect(url_for("blog.blog_page"))
 
