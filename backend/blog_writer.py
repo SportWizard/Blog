@@ -1,7 +1,8 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import login_required
+from werkzeug.security import generate_password_hash
 from . import db
-from .models import Post
+from .models import Blog_credentials, Post
 
 blog_writer = Blueprint("blog_writer", __name__)
 
@@ -40,5 +41,18 @@ def blog_writer_page():
                 db.session.commit()
 
             return redirect(url_for("blog.blog_page"))
+
+        password = request.form.get("password")
+        confirm_password = request.form.get("confirmPassword")
+
+        if password and confirm_password:
+            admin = Blog_credentials.query.first()
+
+            if password == confirm_password:
+                admin.password = generate_password_hash(password, method='pbkdf2:sha256')
+
+                db.session.commit()
+
+                return redirect(url_for("blog.blog_page"))
 
     return render_template("blogWriter.html")

@@ -6,7 +6,7 @@
     margin-bottom: 50px;
 }
 
-.AuthorButton {
+#createPost {
     float: right;
     border-radius: 10px;
 }

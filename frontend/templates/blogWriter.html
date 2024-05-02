@@ -4,23 +4,23 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <link href="../static/css/blog.css" rel="stylesheet" type="text/css"/>
+        <link href="../static/css/blogWriter.css" rel="stylesheet" type="text/css"/>
         
         <title>Blog Writer</title>
     </head>
 
     <body>
         <a href="/blog">
-            <button class="AuthorButton">Blog</button>
+            <button id="createPost">Blog</button>
         </a>
 
-        Add Post:
+        Add Post
         <form method="POST">
-            <input type="text" name="title" placeholder="title:"/>
+            <input type="text" name="title" placeholder="Title:"/>
 
             <br/>
 
-            <textarea name="context" placeholder="context:"></textarea>
+            <textarea name="context" placeholder="Context:"></textarea>
 
             <br/>
 
@@ -29,9 +29,24 @@
 
         <br/>
 
-        Delete Post:
+        Delete Post
         <form method="POST">
-            <input type="text" name="postTitle" placeholder="title:"/>
+            <input type="text" name="postTitle" placeholder="Title:"/>
+
+            <br/>
+
+            <button type="submit">Submit</button>
+        </form>
+
+        <br/>
+
+        Change Password
+        <form method="POST">
+            <input type="password" name="password" placeholder="Password:"/>
+
+            <br/>
+
+            <input type="password" name="confirmPassword" placeholder="Confirm Password:"/>
 
             <br/>
 
