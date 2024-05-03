@@ -11,3 +11,9 @@ class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
     context = db.Column(db.String(-1), nullable=False) #unlimited length
+    comment = db.relationship("Comment", backref="post")
+
+class Comment(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    context = db.Column(db.String(100), nullable=False)
+    post_id = db.Column(db.Integer, db.ForeignKey("post.id"))

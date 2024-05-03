@@ -21,6 +21,20 @@
     margin-bottom: 20px;
 }
 
+.comment {
+    resize: none;
+    margin-left: 9%;
+    margin-top: 2%;
+    width: 90%;
+    height: 70px;
+}
+
+.submit {
+    margin-left: 50%;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
 footer {
     background-color: black;
     color: white;
