@@ -1,4 +1,5 @@
 from flask_login import UserMixin #used for login
+from sqlalchemy.sql import func
 from . import db
 
 #models for sqlalchemy
@@ -12,6 +13,7 @@ class Post(db.Model):
     title = db.Column(db.String(100), nullable=False)
     context = db.Column(db.String(-1), nullable=False) #unlimited length
     comment = db.relationship("Comment", backref="post")
+    date_create = db.Column(db.DateTime(timezone=True), default=func.now())
 
 class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
