@@ -1,2 +1,6 @@
 backend/.env
 instance/database.db
+.venv
+.DS_Store
+__pycache__
+.idea
