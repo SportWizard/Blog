@@ -1,10 +1,12 @@
 from flask import Blueprint, render_template, request, redirect, url_for
+from flask_login import login_required
 from . import db
 from .models import Post
 
 blog_writer = Blueprint("blog_writer", __name__)
 
 @blog_writer.route("/blog-writer", methods=["GET", "POST"])
+@login_required
 def blog_writer_page():
     if request.method == "POST":
         title = request.form.get("title")

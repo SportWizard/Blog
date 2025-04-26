@@ -1,9 +1,11 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-import os
+from flask_login import LoginManager
 from dotenv import load_dotenv
+import os
 
 load_dotenv()
+
 key = os.environ.get("KEY")
 
 db = SQLAlchemy()
@@ -13,7 +15,7 @@ def create_app():
     #template_folder is used if folder "template" is not in the same folder as this file
     app = Flask("Blog", template_folder="./frontend/templates", static_folder="./frontend/static")
     app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{DB_NAME}"
-    app.config["SECRET_KEY"] = key #this is used for flash (to output whether something is success or error
+    app.config["SECRET_KEY"] = key
     db.init_app(app)
 
     #inside this function, so no loop import between different files
@@ -27,6 +29,16 @@ def create_app():
     app.register_blueprint(blog_writer, url_prefix="/")
 
     create_database(app)
+
+    from .models import Blog_credentials, Post
+
+    login_manager = LoginManager()
+    login_manager.login_view = "blog.blog_page" #redirect the user to this page whenever login_required is present and the user hasn't login
+    login_manager.init_app(app)
+
+    @login_manager.user_loader
+    def load_admin(id):
+        return Blog_credentials.query.get(int(id))
 
     return app
 
