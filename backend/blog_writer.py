@@ -14,22 +14,30 @@ def blog_writer_page():
 
         #check if title or context is not empty
         if title and context:
-            post = Post(title=title, context=context)
+            post = Post.query.filter_by(title=title).first()
 
-            db.session.add(post)
+            #check if a post with similar title already exist
+            if post:
+                post.context = context
+            else:
+                #create new post if it doesn't exist
+                post = Post(title=title, context=context)
+                db.session.add(post)
+
             db.session.commit()
 
             return redirect(url_for("blog.blog_page"))
 
         post_title = request.form.get("postTitle")
 
-        #if two posts have the same title, it will delete the oldest one
-        delete_post = Post.query.filter_by(title=post_title).first()
+        #check if the input is not empty
+        if post_title:
+            delete_post = Post.query.filter_by(title=post_title).first()
 
-        #check if the post exist and if delete_post is not empty
-        if post_title and delete_post:
-            db.session.delete(delete_post)
-            db.session.commit()
+            #check if the post exists
+            if delete_post:
+                db.session.delete(delete_post)
+                db.session.commit()
 
             return redirect(url_for("blog.blog_page"))
 
