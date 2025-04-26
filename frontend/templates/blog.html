@@ -25,11 +25,29 @@
                 <h1>{{ post.title }}</h1>
 
                 <p>{{ post.context }}</p>
+
+                <hr/>
+
+                {% for comment in comments %}
+                    <!--display the right comment for the right post-->
+                    {% if comment.post_id == post.id %}
+                        <p>Anonymous: {{ comment.context }}</p>
+                    {% endif %}
+                {% endfor %}
+
+                <form method="POST">
+                    <textarea class="comment" name="comment" placeholder="Comment:"></textarea>
+                    <input type="hidden" name="postId" value="{{ post.id }}"> <!--used to retrieve the post id-->
+
+                    <br/>
+
+                    <button class="submit" type="submit">Submit</button>
+                </form>
             </div>
         {% endfor %}
     </body>
 
     <footer>
-        Create By: Unknown
+        Create By: Henry Ye Cao | Version: 1.0.0
     </footer>
 </html>

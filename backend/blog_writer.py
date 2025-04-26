@@ -55,4 +55,15 @@ def blog_writer_page():
 
                 return redirect(url_for("blog.blog_page"))
 
+        blog_name = request.form.get("blogName")
+
+        if blog_name:
+            admin = Blog_credentials.query.first()
+
+            admin.blog_name = blog_name
+
+            db.session.commit()
+
+            return redirect(url_for("blog.blog_page"))
+
     return render_template("blogWriter.html")
