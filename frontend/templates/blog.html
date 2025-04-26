@@ -11,9 +11,16 @@
     </head>
 
     <body>
-        <h1 id="title">{{ blog_credentials.blog_name }}</h1>
+        <h1 id="title">
+            {{ blog_credentials.blog_name }}
 
-        {% for post in posts %}
+            <a href="/blog-writer">
+                <button class="AuthorButton">Create Post</button>
+            </a>
+        </h1>
+
+        <!--loop through the posts and reverse it-->
+        {% for post in posts|reverse %}
             <div class="post">
                 <h1>{{ post.title }}</h1>
 
@@ -21,4 +28,8 @@
             </div>
         {% endfor %}
     </body>
+
+    <footer>
+        Create By: Unknown
+    </footer>
 </html>
