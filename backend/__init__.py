@@ -1,5 +1,10 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+key = os.environ.get("KEY")
 
 db = SQLAlchemy()
 DB_NAME = "database.db"
@@ -8,6 +13,7 @@ def create_app():
     #template_folder is used if folder "template" is not in the same folder as this file
     app = Flask("Blog", template_folder="./frontend/templates", static_folder="./frontend/static")
     app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{DB_NAME}"
+    app.config["SECRET_KEY"] = key #this is used for flash (to output whether something is success or error
     db.init_app(app)
 
     #inside this function, so no loop import between different files
